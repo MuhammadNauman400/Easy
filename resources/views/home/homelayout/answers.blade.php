@@ -1,7 +1,13 @@
 <div class="lonyo-section-padding4">
     <div class="container">
+
+      @php
+            $title = App\Models\Title::find(1);
+      @endphp
+
       <div class="lonyo-section-title center">
-        <h2>Find answers to all questions below</h2>
+         <h2 id="answer-title" contenteditable="{{ auth()->check() ? 'true' : 'false' }}"
+                data-id="{{ $title->id }}">{{ $title->answers }}</h2>
       </div>
       <div class="lonyo-faq-shape"></div>
       <div class="lonyo-faq-wrap1">
@@ -71,3 +77,48 @@
       </div>
     </div>
   </div>
+
+  {{-- CSRF TOKEN --}}
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const titleElement = document.getElementById('answer-title');
+
+        function saveChanges(element) {
+           let answerId = element.dataset.id;
+           let field = element.id === "answer-title" ? "answers" : "";
+           let newValue = element.innerText.trim();
+
+           fetch(`/edit-answers/${answerId}`, {
+               method: "POST",
+               headers: {
+                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
+                "Content-Type": "application/json",
+               },
+               body: JSON.stringify({[field]: newValue})
+           })
+           .then(response => response.json())
+           .then(data => {
+            if(data.success){
+                console.log(`${field} updated successfully`);
+            }
+           })
+           .catch(error => console.error("Error:", error));
+        }
+
+        // Auto save on Enter key
+        document.addEventListener("keydown", function(e){
+          if (e.key === "Enter") {
+            e.preventDefault();
+            saveChanges(e.target);
+          }
+        });
+
+        // Auto save on losing focus
+        titleElement.addEventListener("blur", function() {
+            saveChanges(titleElement);
+        });
+
+    });
+  </script>

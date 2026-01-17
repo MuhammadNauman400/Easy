@@ -55,6 +55,8 @@ Route::controller(ReviewController::class)->group(function(){
         Route::post('/update/slider', 'UpdateSlider')->name('update.slider');
         Route::post('/edit-slider/{id}', 'EditSlider');
         Route::post('/edit-features/{id}', 'EditFeatures');
+        Route::post('/edit-reviews/{id}', 'EditReview');
+        Route::post('/edit-answers/{id}', 'EditAnswer');
     });
 
 });
