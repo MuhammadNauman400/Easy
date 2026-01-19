@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Backend\HomeController;
 use App\Http\Controllers\Backend\ReviewController;
 use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\ProfileController;
@@ -20,7 +21,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 Route::get('/admin/logout', [AdminController::class, 'AdminLogout'])->name('admin.logout');
 
@@ -35,20 +36,18 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [AdminController::class, 'AdminProfile'])->name('admin.profile');
     Route::post('/profile/store', [AdminController::class, 'ProfileStore'])->name('profile.store');
     Route::post('/admin/password/update', [AdminController::class, 'PasswordUpdate'])->name('admin.password.update');
-    
 });
 
 Route::middleware('auth')->group(function () {
 
-Route::controller(ReviewController::class)->group(function(){
-    Route::get('/all/review', 'AllReview')->name('all.review');
-    Route::get('/add/review', 'AddReview')->name('add.review');
-    Route::post('/store/review', 'StoreReview')->name('store.review');
-    Route::get('/edit/review/{id}', 'EditReview')->name('edit.review');
-    Route::post('/update/review', 'UpdateReview')->name('update.review');
-    Route::get('/delete/review/{id}', 'DeleteReview')->name('delete.review');
-    
-});
+    Route::controller(ReviewController::class)->group(function () {
+        Route::get('/all/review', 'AllReview')->name('all.review');
+        Route::get('/add/review', 'AddReview')->name('add.review');
+        Route::post('/store/review', 'StoreReview')->name('store.review');
+        Route::get('/edit/review/{id}', 'EditReview')->name('edit.review');
+        Route::post('/update/review', 'UpdateReview')->name('update.review');
+        Route::get('/delete/review/{id}', 'DeleteReview')->name('delete.review');
+    });
 
     Route::controller(SliderController::class)->group(function () {
         Route::get('/get/slider', 'GetSlider')->name('get.slider');
@@ -59,4 +58,9 @@ Route::controller(ReviewController::class)->group(function(){
         Route::post('/edit-answers/{id}', 'EditAnswer');
     });
 
+    Route::controller(HomeController::class)->group(function () {
+        Route::get('/all/feature', 'AllFeature')->name('all.feature');
+        Route::get('/add/feature', 'AddFeature')->name('add.feature');
+        Route::post('/store/feature', 'StoreFeature')->name('store.feature');
+    });
 });
