@@ -7,6 +7,7 @@ use App\Models\Clarify;
 use App\Models\Feature;
 use App\Models\GetAll;
 use App\Models\Usability;
+use App\Models\Connect;
 use Illuminate\Http\Request;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
@@ -235,5 +236,75 @@ class HomeController extends Controller
 
             return redirect()->route('get.usability')->with($notification);
         }
+    }
+
+    public function AllConnect()
+    {
+        $connect = Connect::latest()->get();
+        return view('admin.backend.connect.all_connect', compact('connect'));
+    }
+
+    public function AddConnect()
+    {
+        return view('admin.backend.connect.add_connect');
+    }
+
+    public function StoreConnect(Request $request)
+    {
+        Connect::create([
+            'title' => $request->title,
+            'description' => $request->description,
+        ]);
+
+        $notification = array(
+            'message' => 'Connect Inserted Successfully',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('all.connect')->with($notification);
+    }
+
+    public function EditConnect($id)
+    {
+        $connect = Connect::find($id);
+        return view('admin.backend.connect.edit_connect', compact('connect'));
+    }
+
+    public function UpdateConnect(Request $request)
+    {
+        $connect_id = $request->id;
+
+        Connect::find($connect_id)->update([
+            'title' => $request->title,
+            'description' => $request->description,
+        ]);
+
+        $notification = array(
+            'message' => 'Connect Updated Successfully',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('all.connect')->with($notification);
+    }
+
+    public function DeleteConnect($id)
+    {
+        Connect::find($id)->delete();
+
+        $notification = array(
+            'message' => 'Connect Deleted Successfully',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->back()->with($notification);
+    }
+
+    public function UpdateConnectOnClick(Request $request, $id)
+    {
+        $connect = Connect::findOrFail($id);
+
+        $connect->update($request->only(['title', 'description']));
+
+        return response()->json(['status' => 'success', 'message' => 'Updated successfully']);
     }
 }
