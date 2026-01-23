@@ -46,6 +46,12 @@
 
   <section class="lonyo-section-padding3 position-relative">
     <div class="container">
+
+      @php
+        $core_value = App\Models\CoreValue::latest()->get();
+      @endphp
+
+
       <div class="row">
         <div class="col-lg-7">
           <div class="lonyo-default-content pr-50 feature-wrap">
@@ -54,42 +60,19 @@
           </div>
         </div>
         <div class="col-lg-5">
+
+          @foreach ($core_value as $item)
           <div class="lonyo-about-us-feature-wrap one" data-aos="fade-up" data-aos-duration="500">
             <div class="lonyo-about-us-feature-icon">
-              <img src="{{ asset('frontend/assets/images/about-us/icon1.svg') }}" alt="">
+              <img src="{{ asset('frontend/assets/images/about-us/'. $item->icon .'.svg') }}" alt="">
             </div>
             <div class="lonyo-about-us-feature-content">
-              <h4>User-Centric Innovation</h4>
-              <p>We design our apps and software with our users in mind, constantly evolving to meet their financial needs and solutions.</p>
+              <h4>{{ $item->title }}</h4>
+              <p>{{ $item->description }}</p>
             </div>
           </div>
-          <div class="lonyo-about-us-feature-wrap two" data-aos="fade-up" data-aos-duration="700">
-            <div class="lonyo-about-us-feature-icon">
-              <img src="{{ asset('frontend/assets/images/about-us/icon2.svg') }}" alt="">
-            </div>
-            <div class="lonyo-about-us-feature-content">
-              <h4>Transparency</h4>
-              <p>We believe in clear communication and full transparency in all our practices, providing users with accurate financial insights.</p>
-            </div>
-          </div>
-          <div class="lonyo-about-us-feature-wrap three" data-aos="fade-up" data-aos-duration="900">
-            <div class="lonyo-about-us-feature-icon">
-              <img src="{{ asset('frontend/assets/images/about-us/icon3.svg') }}" alt="">
-            </div>
-            <div class="lonyo-about-us-feature-content">
-              <h4>Integrity & Trust</h4>
-              <p>We build lasting relationships with our users by consistently delivering reliable, ethical, and also trustworthy services.</p>
-            </div>
-          </div>
-          <div class="lonyo-about-us-feature-wrap mb-0 four" data-aos="fade-up" data-aos-duration="1100">
-            <div class="lonyo-about-us-feature-icon">
-              <img src="{{ asset('frontend/assets/images/about-us/icon4.svg') }}" alt="">
-            </div>
-            <div class="lonyo-about-us-feature-content">
-              <h4>Security You Can Trust</h4>
-              <p>Your financial data is protected with top-level encryption and security protocols to ensure your information is always secure.</p>
-            </div>
-          </div>
+          @endforeach
+          
         </div>
       </div>
     </div>
