@@ -146,6 +146,15 @@ Route::middleware('auth')->group(function () {
        
     });
 
+    Route::controller(BlogController::class)->group(function () {
+        Route::get('/all/blog/post', 'AllBlogPost')->name('all.blog.post');
+        Route::get('/add/blog/post', 'AddBlogPost')->name('add.blog.post');
+        Route::post('/store/blog/post', 'StoreBlogPost')->name('store.blog.post');
+        Route::get('/edit/blog/post/{id}', 'EditBlogPost')->name('edit.blog.post');
+        Route::post('/update/blog/post', 'UpdateBlogPost')->name('update.blog.post');
+        Route::get('/delete/blog/post/{id}', 'DeleteBlogPost')->name('delete.blog.post');
+    });
+
 });
 
 // Out of any middleware
