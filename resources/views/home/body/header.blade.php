@@ -69,7 +69,7 @@
                         </div>
                     @endauth
 
-                    <a class="lonyo-default-btn lonyo-header-btn" href="conact-us.html">Book a demo</a>
+                    {{-- <a class="lonyo-default-btn lonyo-header-btn" href="conact-us.html">Book a demo</a> --}}
                 </div>
                 <div class="lonyo-header-menu">
                     <nav class="navbar site-navbar justify-content-between">
