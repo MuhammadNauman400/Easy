@@ -13,9 +13,9 @@ RUN apt-get update && apt-get install -y \
 # Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Node
+# Node (NodeSource includes npm already)
 RUN curl -sL https://deb.nodesource.com/setup_18.x | bash - \
-    && apt-get install -y nodejs npm
+    && apt-get install -y nodejs
 
 WORKDIR /var/www/html
 
@@ -36,4 +36,4 @@ RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cac
 EXPOSE 8000
 
 # Start server
-CMD ["sh", "-c", "php artisan migrate --force && php -S 0.0.0.0:${PORT:-8000} -t public"]
+CMD ["sh", "-c", "php artisan serve --host=0.0.0.0 --port=${PORT:-8000}"]
