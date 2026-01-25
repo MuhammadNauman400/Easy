@@ -1,12 +1,14 @@
 FROM php:8.2-fpm
 
-# System dependencies
+# System dependencies + nodejs
 RUN apt-get update && apt-get install -y \
     git curl unzip zip \
     libzip-dev libonig-dev libxml2-dev libsodium-dev \
     libpq-dev default-mysql-client default-libmysqlclient-dev \
     libfreetype6-dev libjpeg62-turbo-dev libpng-dev libsqlite3-dev \
     nginx \
+    nodejs \
+    npm \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install pdo_mysql pdo_pgsql pdo_sqlite zip gd exif bcmath opcache sodium \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
