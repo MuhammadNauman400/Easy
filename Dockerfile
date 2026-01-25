@@ -38,4 +38,4 @@ COPY nginx.conf /etc/nginx/sites-available/default
 EXPOSE 80
 
 # Start nginx + php-fpm properly
-CMD ["sh", "-c", "service nginx start && php-fpm"]
+CMD ["sh", "-c", "php-fpm -F & nginx -g 'daemon off;'"]
