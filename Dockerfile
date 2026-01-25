@@ -23,19 +23,15 @@ WORKDIR /var/www/html
 # Copy app
 COPY . .
 
-# Install PHP deps (NO DEV)
+# PHP dependencies (NO DEV)
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
-# Frontend
+# Frontend build
 RUN npm install
 RUN npm run build
-
-# Environment
-RUN cp .env.example .env && php artisan key:generate
 
 # Expose port
 EXPOSE 8000
 
-# Start app
-CMD php artisan migrate --force && \
-    php artisan serve --host=0.0.0 --port=8000
+# Start Laravel (Railway handles env vars)
+CMD php artisan serve --host=0.0.0.0 --port=8000
