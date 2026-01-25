@@ -1,5 +1,6 @@
 FROM php:8.2-fpm
 
+# Install system dependencies + nginx + node
 RUN apt-get update && apt-get install -y \
     git curl unzip zip \
     libzip-dev libonig-dev libxml2-dev libsodium-dev \
@@ -9,6 +10,9 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install pdo_mysql pdo_pgsql pdo_sqlite zip gd exif bcmath opcache sodium \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Copy composer from official composer image
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 
